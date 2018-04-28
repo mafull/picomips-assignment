@@ -21,7 +21,7 @@ always_ff @ (
 		if (inc)			addressOut <= addressOut + {{P_SIZE-1{1'b0}}, 1'b1};	// Increment
 		else if (branchRel)	addressOut <= addressOut + branchAddressIn;				// Add branch address
 		else if (branchAbs)	addressOut <= branchAddressIn;							// Branch to address
-		else                addressOut <= addressOutIn;								// Do nothing
+		else                addressOut <= addressOut;								// Do nothing
 	end        
 end
 
