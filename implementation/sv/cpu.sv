@@ -10,7 +10,8 @@ module cpu
 
 
 	// Instructions
-	wire [(P_SIZE-1):0] programAddress;
+	wire [(P_SIZE-1):0] programAddress, branchAddress;
+	wire pcInc, pcBranchAbs, pcBranchRel;
 	wire [(I_SIZE-1):0] instruction;
 	wire [5:0] opCode;
 	assign opCode = instruction[(I_SIZE-1):(I_SIZE-6)];
@@ -25,8 +26,16 @@ module cpu
 			.P_SIZE(P_SIZE)
 		) pc
 		(
+			// Outputs
 			.address(programAddress),
 
+			// Inputs
+			.branchAddress(branchAddress),
+			.inc(pcInc),
+			.branchAbs(pcBranchAbs),
+			.branchRel(pcBranchRel),
+
+			// Clock/reset
 			.clk(clk), .nRst(nRst)
 		);
 
@@ -37,16 +46,20 @@ module cpu
 			.I_SIZE(I_SIZE)
 		) pm
 		(
+			// Outputs
 			.instruction(instruction),
 			
+			// Inputs
 			.address(programAddress)
 		);
 
 
 	decoder 
 		de (
+			// Outputs
 			.aluFunction(aluFunction),
 			
+			// Inputs
 			.opCode(opCode),
 			.aluFlags(aluFlags)
 		);
@@ -67,9 +80,11 @@ module cpu
 			.N(N)
 		) al
 		(
+			// Outputs
 			.result(aluResult),
 			.flags(aluFlags),
 
+			// Inputs
 			.a(),
 			.b(),
 			.function(aluFunction)
