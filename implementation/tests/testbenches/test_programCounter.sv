@@ -1,6 +1,6 @@
 module test_programCounter;
 
-timeunit 1ns; timeprecision 1ns;
+    timeunit 1ns; timeprecision 1ns;
 
     // Parameters
     parameter P_SIZE = 6;
