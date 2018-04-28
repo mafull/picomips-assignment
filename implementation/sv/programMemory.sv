@@ -1,12 +1,12 @@
 module programMemory
     #(
-        parameter P_SIZE = 6,   // Address width
-        parameter I_SIZE = 24   // Instruction width
+        parameter I_SIZE = 24,  // Instruction width
+        parameter P_SIZE = 6    // Address width
     )
     (
-        output logic [(I_SIZE-1):0] instruction,    // Selected instruction
+        output logic [(I_SIZE-1):0] instructionOut, // Selected instruction
 
-        input wire [(P_SIZE-1):0] address           // Address of required instruction
+        input wire [(P_SIZE-1):0] addressIn         // Address of required instruction
     );
 
 
@@ -20,7 +20,7 @@ module programMemory
 
 
     // Read program memory
-    assign instruction = memory[address];
+    assign instructionOut = memory[addressIn];
 
 
 endmodule

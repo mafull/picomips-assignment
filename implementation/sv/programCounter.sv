@@ -5,7 +5,7 @@ module programCounter
 	(
 		output logic [(P_SIZE-1):0] addressOut,		// Output address
 
-		input logic [(P_SIZE-1):0] branchAddress,	// Branch address
+		input logic [(P_SIZE-1):0] branchAddressIn,	// Branch address
 		input logic inc, branchAbs, branchRel,		// Control lines
 
 		input wire clk, nRst
@@ -19,9 +19,9 @@ always_ff @ (
 	if (!nRst)				addressOut <= {P_SIZE{1'b0}};							// Reset to 0
 	else begin
 		if (inc)			addressOut <= addressOut + {{P_SIZE-1{1'b0}}, 1'b1};	// Increment
-		else if (branchRel)	addressOut <= addressOut + branchAddress;				// Add branch address
-		else if (branchAbs)	addressOut <= branchAddress;							// Branch to address
-		else                addressOut <= addressOut;								// Do nothing
+		else if (branchRel)	addressOut <= addressOut + branchAddressIn;				// Add branch address
+		else if (branchAbs)	addressOut <= branchAddressIn;							// Branch to address
+		else                addressOut <= addressOutIn;								// Do nothing
 	end        
 end
 
