@@ -2,10 +2,10 @@ module test_programMemory;
 
     timeunit 1ns; timeprecision 1ns;
 
+
     // Parameters
     parameter P_SIZE = 6;
     parameter I_SIZE = 24;
-
 
     // Outputs
     wire [(I_SIZE-1):0] instruction;
@@ -14,6 +14,7 @@ module test_programMemory;
     logic [(P_SIZE-1):0] address;
 
 
+    // Instance
     programMemory
         #(
             .P_SIZE(P_SIZE),
@@ -26,6 +27,7 @@ module test_programMemory;
         );
 
 
+    // Testing
     logic [(I_SIZE-1):0] memory [((1 << P_SIZE)-1):0];
     initial begin
         // Read program into local memory
@@ -38,8 +40,6 @@ module test_programMemory;
             address = i;
             if (instruction != memory[address]) $error("Invalid instruction");
         end
-
-        #10 $finish;
     end
 
 endmodule

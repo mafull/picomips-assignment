@@ -2,9 +2,9 @@ module test_programCounter;
 
     timeunit 1ns; timeprecision 1ns;
 
+    
     // Parameters
     parameter P_SIZE = 6;
-
 
     // Outputs
     wire [(P_SIZE-1):0] address;
@@ -15,6 +15,7 @@ module test_programCounter;
     logic clk, nRst;
 
 
+    // Instance
     programCounter
         #(
             .P_SIZE(P_SIZE)
@@ -79,8 +80,6 @@ module test_programCounter;
         #10;
         if (address != 13) $error("Incorrect address");
         branchRel = 0;
-
-        #5 $finish;
     end
 
 endmodule
