@@ -8,7 +8,7 @@ output_files/*
 
 # Only keep test source files
 tests/*
-!tests/*.sv
+!tests/testbenches
 
 # Individual files
 *transcript*
