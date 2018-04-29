@@ -1,93 +1,72 @@
 module cpu
 	#(
-		parameter N			= 8,        // Data bus width
-		parameter P_SIZE 	= 6,        // 
-		parameter I_SIZE 	= N + 16    //
+		parameter N = 8,        // Data bus width
+        parameter A_SIZE = 3,   // ALU function width
+        parameter O_SIZE = 6,   // OpCode width
+        parameter P_SIZE = 5,   // Program memory address width
+        parameter R_SIZE = 3,   // GPR address width
+
+        // Instruction = opCode(O) + dest(R) + source(R) + imm/addr(N)
+        parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
 	)
 	(
+		output wire [(N-1):0] displayResult,
+		output wire [(P_SIZE-1):0] displayPC,
+
 		input wire clk, nRst
 	);
 
 
-	// Instructions
-	wire [(P_SIZE-1):0] programAddress, branchAddress;
-	wire pcInc, pcBranchAbs, pcBranchRel;
-	wire [(I_SIZE-1):0] instruction;
-	wire [5:0] opCode;
-	assign opCode = instruction[(I_SIZE-1):(I_SIZE-6)];
+	wire writeReg;
+	cpuConfig::aluFunc_t aluFunc;
+	wire aluImmediate;
 
-	// ALU
-	wire [3:0] aluFlags;
-	wire [2:0] aluFunction;
-	wire [(N-1):0] aluResult;
+	wire [(R_SIZE-1):0] opD, opS;
+	wire [(N-1):0] opT;
 
-	programCounter 
+
+	controlPath
 		#(
-			.P_SIZE(P_SIZE)
-		) pc
-		(
-			// Outputs
-			.address(programAddress),
-
-			// Inputs
-			.branchAddress(branchAddress),
-			.inc(pcInc),
-			.branchAbs(pcBranchAbs),
-			.branchRel(pcBranchRel),
-
-			// Clock/reset
-			.clk(clk), .nRst(nRst)
-		);
-
-
-	programMemory
-		#(
+			.N(N),
+			.A_SIZE(A_SIZE),
+			.O_SIZE(O_SIZE),
 			.P_SIZE(P_SIZE),
-			.I_SIZE(I_SIZE)
-		) pm
+			.R_SIZE(R_SIZE)
+		) cp
 		(
-			// Outputs
-			.instruction(instruction),
-			
-			// Inputs
-			.address(programAddress)
+			.displayPC(displayPC),
+
+			.writeReg(writeReg),
+			.aluFunc(aluFunc),
+			.aluImmediate(aluImmediate),
+
+			.opD(opD),
+			.opS(opS),
+			.opT(opT),
+
+			.clk(clk),
+			.nRst(nRst)
 		);
 
 
-	decoder 
-		de (
-			// Outputs
-			.aluFunction(aluFunction),
-			
-			// Inputs
-			.opCode(opCode),
-			.aluFlags(aluFlags)
-		);
-
-
-	registers
+	dataPath
 		#(
-			.N(N)
-		) re
+			.N(N),
+			.A_SIZE(A_SIZE),
+			.R_SIZE(R_SIZE)
+		) dp
 		(
+			.displayResult(displayResult),
 
-		);
+			.writeReg(writeReg),
+			.aluFunc(aluFunc),
+			.aluImmediate(aluImmediate),
 
+			.opD(opD),
+			.opS(opS),
+			.opT(opT),
 
-
-	alu
-		#(
-			.N(N)
-		) al
-		(
-			// Outputs
-			.result(aluResult),
-			.flags(aluFlags),
-
-			// Inputs
-			.a(),
-			.b(),
-			.function(aluFunction)
+			.clk(clk)
 		);
 
 

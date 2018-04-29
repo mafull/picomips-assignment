@@ -11,15 +11,37 @@ module picoMIPS(
 	input wire CLOCK
 );
 
+	wire [(cpuConfig::P_SIZE-1):0] displayPC;
 
-cpu
-	#(
-		.N(8)
-	) cpu_inst
-	(
-		.clk(CLOCK),
-		.nRst(BUTTON[0])
+
+	cpu
+		#(
+			.N(cpuConfig::N),
+			.A_SIZE(cpuConfig::A_SIZE),
+			.O_SIZE(cpuConfig::O_SIZE),
+			.P_SIZE(cpuConfig::P_SIZE),
+			.R_SIZE(cpuConfig::R_SIZE)
+		) cpu_inst
+		(
+			.displayResult(LED[(cpuConfig::N-1):0]),
+			.displayPC(displayPC),
+			
+			.clk(BUTTON[1]),
+			.nRst(BUTTON[0])
+		);
+
+
+	sevenSegment seg4(
+		SEG4,
+		displayPC[3:0],
+		1'b1
 	);
 
+
+	sevenSegment seg5(
+		SEG5,
+		displayPC[(cpuConfig::P_SIZE-1):4],
+		1'b1
+	);
 
 endmodule

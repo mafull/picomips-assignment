@@ -7,16 +7,20 @@ module controlPath
         parameter R_SIZE = 3,   // GPR address width
 
         // Instruction = opCode(O) + dest(R) + source(R) + imm/addr(N)
-        parameter I_SIZE = O_SIZE + (2*R_SIZE) + N,
+        parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
     )
     (
         // Outputs
+        // Demo
+        output wire [(P_SIZE-1):0] displayPC,
+
         // Control
         output wire writeReg,
-        output wire [(A_SIZE-1):0] aluFunc,
+        output cpuConfig::aluFunc_t aluFunc,
+        output wire aluImmediate,
         // Data
-        output wire [(R_SIZE-1):0] opD, opS;
-        output wire [(N-1):0] opT;
+        output wire [(R_SIZE-1):0] opD, opS,
+        output wire [(N-1):0] opT,
 
         // Clock/reset
         input wire clk, nRst
@@ -25,15 +29,18 @@ module controlPath
     
     // Instruction wires
     wire [(I_SIZE-1):0] instruction;
-    wire [(O_SIZE-1):0] opCode;
+    cpuConfig::opCode_t opCode;
     assign {opCode, opD, opS, opT} = instruction;
 
 
     // Program counter IO
     wire pcInc, pcBranchAbs, pcBranchRel;
     wire [(P_SIZE-1):0] pcAddressOut, pcBranchAddress;
-    assign pcBranchAddress = opT[(P_SIZE-1):0];    
+    assign pcBranchAddress = opT[(P_SIZE-1):0];
 
+
+    assign displayPC = pcAddressOut;
+    
 
     // Program counter instance
     programCounter
@@ -74,11 +81,13 @@ module controlPath
         ) de
         (
             .aluFunc(aluFunc),
+            .aluImmediate(aluImmediate),
             .pcInc(pcInc),
             .pcBranchAbs(pcBranchAbs),
             .pcBranchRel(pcBranchRel),
+            .writeReg(writeReg),
             
-            .opCode(instructionOpCode)
+            .opCode(opCode)
         );
 
 

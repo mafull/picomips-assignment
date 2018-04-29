@@ -1,7 +1,7 @@
 module programMemory
     #(
         parameter I_SIZE = 24,  // Instruction width
-        parameter P_SIZE = 6    // Address width
+        parameter P_SIZE = 5    // Address width
     )
     (
         output logic [(I_SIZE-1):0] instructionOut, // Selected instruction
@@ -16,7 +16,7 @@ module programMemory
 
     // Load memory contents from .hex file
     initial
-    	$readmemh("prog.hex", memory);
+    	$readmemh("hex/prog.hex", memory);
 
 
     // Read program memory
