@@ -1,22 +1,29 @@
 // Format: opCode(4) %d(4) %s(4) %b/I(8)   20-bits long
 // HEX -- BINARY -- ASSEMBLER
 // Load x1 and y1
-10005  // 0001_0000_0000_00000101   LDI %0      5 	    Load 5 into #0		x1 = 5
-11003  // 0001_0001_0000_00000011   LDI %1      3      	Load 3 into #1		y1 = 3
-// Load coefficients
-12060  // 0001_0010_0000_01100000   LDI %2      0.75    Load 0.75 into #2	a11 = 0.75
-13040  // 0001_0011_0000_01000000   LDI %3      0.5     Load 0.5 into #3	a12 = 0.5
-140c0  // 0001_0100_0000_11000000   LDI %4      -0.5    Load -0.5 into #4	a21 = -0.5
-15060  // 0001_0101_0000_01100000   LDI %5      0.75    Load 0.75 into #5	a22 = 0.75
-16014  // 0001_0110_0000_00010100   LDI %6      20      Load 20 into #6		b1 = 20
-170EC  // 0001_0111_0000_11101100   LDI %7      -20     Load -20 into #7	b2 = -20
-// Calculate x2
-42000  // 0100_0010_0000_00000000   MUL %2  %0          Multiply #2 by #0	res1 = a11*x1
-43100  // 0100_0011_0001_00000000   MUL %3  %1          Multiply #3 by #1	res2 = a12*y1
-22300  // 0010_0010_0011_00000000   ADD %2  %3          Add #3 to #2	res1 = res1+res2
-22600  // 0010_0010_0110_00000000   ADD %2  %6          Add #6 to #2	x2 = res1+b1
-// Calculate y2
-44000  // 0100_0100_0000_00000000   MUL %4  %0          Multiply #4 by #0	res3 = a21*x1
-45100  // 0100_0101_0001_00000000   MUL %5  %1          Multiply #5 by #1	res4 = a22*y1
-24500  // 0010_0100_0101_00000000   ADD %4  %5          Add #5 to #4	res3 = res3+res4
-24700  // 0010_0100_0111_00000000   ADD %4  %7          Add #6 to #2	y2 = res3+b2
+70000  // 0111_0000_0000_00000000	WAIT1				  Wait for SW8 to become 1
+20000  // 0010_0000_0000_00000000   LDS   %0       	      Load switches into #0	x1 = SWITCHES
+60000  // 0110_0000_0000_00000000	WAIT0 %0			  Wait for SW8 to become 0, display %0
+70000  // 0111_0000_0000_00000000	WAIT1 %1			  Wait for SW8 to become 1, display %1
+21000  // 0010_0001_0000_00000000   LDS   %1              Load switches into #1	y1 = SWITCHES
+60000  // 0110_0000_0000_00000000	WAIT0   			  Wait for SW8 to become 0
+// Load coefficients                      
+12060  // 0001_0010_0000_01100000   LDI   %2      0.75    Load 0.75 into #2	a11 = 0.75
+13040  // 0001_0011_0000_01000000   LDI   %3      0.5     Load 0.5 into #3	a12 = 0.5
+140c0  // 0001_0100_0000_11000000   LDI   %4      -0.5    Load -0.5 into #4	a21 = -0.5
+15060  // 0001_0101_0000_01100000   LDI   %5      0.75    Load 0.75 into #5	a22 = 0.75
+16014  // 0001_0110_0000_00010100   LDI   %6      20      Load 20 into #6		b1 = 20
+170EC  // 0001_0111_0000_11101100   LDI   %7      -20     Load -20 into #7	b2 = -20
+// Calculate x2                           
+52000  // 0101_0010_0000_00000000   MUL   %2  %0          Multiply #2 by #0	res1 = a11*x1
+53100  // 0101_0011_0001_00000000   MUL   %3  %1          Multiply #3 by #1	res2 = a12*y1
+32300  // 0011_0010_0011_00000000   ADD   %2  %3          Add #3 to #2	res1 = res1+res2
+32600  // 0011_0010_0110_00000000   ADD   %2  %6          Add #6 to #2	x2 = res1+b1
+// Calculate y2                           
+54000  // 0101_0100_0000_00000000   MUL   %4  %0          Multiply #4 by #0	res3 = a21*x1
+55100  // 0101_0101_0001_00000000   MUL   %5  %1          Multiply #5 by #1	res4 = a22*y1
+34500  // 0011_0100_0101_00000000   ADD   %4  %5          Add #5 to #4	res3 = res3+res4
+34700  // 0011_0100_0111_00000000   ADD   %4  %7          Add #6 to #2	y2 = res3+b2
+// Display x2 and y2
+72000  // 0111_0010_0000_00000000	WAIT1 %2			  Wait for SW8 to become 1, display %2
+64000  // 0110_0100_0000_00000000	WAIT0 %4			  Wait for SW8 to become 0, display %4
