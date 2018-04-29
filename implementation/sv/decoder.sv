@@ -10,7 +10,7 @@ module decoder
 		output cpuConfig::aluFunc_t aluFunc,
 		output logic aluImmediate,
 		output logic immSwitches,
-		output logic pcInc, pcBranchAbs, pcBranchRel,
+		output logic pcInc,
 		output logic writeReg,
 
 		input cpuConfig::opCode_t opCode,
@@ -28,8 +28,6 @@ module decoder
 		aluImmediate = 1'b0;
 		immSwitches = 1'b0;
 		pcInc = 1'b1;
-		pcBranchAbs = 1'b0;
-		pcBranchRel = 1'b0;
 		writeReg = 1'b1;
 
 		// Decode opCode

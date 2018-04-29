@@ -36,9 +36,8 @@ module controlPath
 
 
     // Program counter IO
-    wire pcInc, pcBranchAbs, pcBranchRel;
-    wire [(P_SIZE-1):0] pcAddressOut, pcBranchAddress;
-    assign pcBranchAddress = opT[(P_SIZE-1):0];
+    wire pcInc;
+    wire [(P_SIZE-1):0] pcAddressOut;
 
 
     assign displayPC = pcAddressOut;
@@ -52,10 +51,7 @@ module controlPath
         (
             .addressOut(pcAddressOut),
 
-            .branchAddressIn(pcBranchAddress),
             .inc(pcInc),
-            .branchAbs(pcBranchAbs),
-            .branchRel(pcBranchRel),
 
             .clk(clk),
             .nRst(nRst)
@@ -86,8 +82,6 @@ module controlPath
             .aluImmediate(aluImmediate),
             .immSwitches(immSwitches),
             .pcInc(pcInc),
-            .pcBranchAbs(pcBranchAbs),
-            .pcBranchRel(pcBranchRel),
             .writeReg(writeReg),
             
             .opCode(opCode),
