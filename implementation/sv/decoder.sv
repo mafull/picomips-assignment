@@ -9,10 +9,12 @@ module decoder
 		// Outputs
 		output cpuConfig::aluFunc_t aluFunc,
 		output logic aluImmediate,
+		output logic immSwitches,
 		output logic pcInc, pcBranchAbs, pcBranchRel,
 		output logic writeReg,
 
-		input cpuConfig::opCode_t opCode
+		input cpuConfig::opCode_t opCode,
+		input wire demoSwitch
 		//input wire [3:0] aluFlags
 	);
 	
@@ -24,6 +26,7 @@ module decoder
 		// Set default values
 		aluFunc = ALU_A;
 		aluImmediate = 1'b0;
+		immSwitches = 1'b0;
 		pcInc = 1'b1;
 		pcBranchAbs = 1'b0;
 		pcBranchRel = 1'b0;
@@ -36,6 +39,11 @@ module decoder
 				aluFunc = ALU_B;
 				aluImmediate = 1'b1;
 			end
+			LDS: begin
+				aluFunc = ALU_B;
+				aluImmediate = 1'b1;
+				immSwitches = 1'b1;
+			end
 			ADD: begin
 				aluFunc = ALU_ADD;
 			end
@@ -45,6 +53,12 @@ module decoder
 			end
 			MUL: begin
 				aluFunc = ALU_MUL;
+			end
+			WAIT0: begin
+				pcInc = ~demoSwitch;
+			end
+			WAIT1: begin
+				pcInc = demoSwitch;
 			end
 		endcase
 	end

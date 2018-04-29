@@ -12,6 +12,8 @@ module cpu
 	(
 		output wire [(N-1):0] displayResult,
 		output wire [(P_SIZE-1):0] displayPC,
+		
+		input wire [9:0] switchesIn,
 
 		input wire clk, nRst
 	);
@@ -20,6 +22,7 @@ module cpu
 	wire writeReg;
 	cpuConfig::aluFunc_t aluFunc;
 	wire aluImmediate;
+	wire immSwitches;
 
 	wire [(R_SIZE-1):0] opD, opS;
 	wire [(N-1):0] opT;
@@ -35,10 +38,12 @@ module cpu
 		) cp
 		(
 			.displayPC(displayPC),
+			.switchesIn(switchesIn),
 
 			.writeReg(writeReg),
 			.aluFunc(aluFunc),
 			.aluImmediate(aluImmediate),
+			.immSwitches(immSwitches),
 
 			.opD(opD),
 			.opS(opS),
@@ -57,10 +62,12 @@ module cpu
 		) dp
 		(
 			.displayResult(displayResult),
+			.switchesIn(switchesIn),
 
 			.writeReg(writeReg),
 			.aluFunc(aluFunc),
 			.aluImmediate(aluImmediate),
+			.immSwitches(immSwitches),
 
 			.opD(opD),
 			.opS(opS),

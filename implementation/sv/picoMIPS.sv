@@ -25,6 +25,8 @@ module picoMIPS(
 		(
 			.displayResult(LED[(cpuConfig::N-1):0]),
 			.displayPC(displayPC),
+
+			.switchesIn(SWITCH),
 			
 			.clk(BUTTON[1]),
 			.nRst(BUTTON[0])

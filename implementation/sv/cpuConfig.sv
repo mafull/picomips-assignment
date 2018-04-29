@@ -10,11 +10,15 @@ package cpuConfig;
 
     // OpCodes
     typedef enum logic [(O_SIZE-1):0] {
-        NOP,    // 0000
-        LDI,    // 0001
-        ADD,    // 0010
-        ADDI,   // 0011
-        MUL     // 0100
+        NOP,    // 0000 No operation
+        LDI,    // 0001 Load immediate
+        LDS,    // 0010 Load from switches
+        ADD,    // 0011 Add
+        ADDI,   // 0100 Add immediate
+        MUL,    // 0101 Multiply
+        MULI,   // 0110 Multiply immediate
+        WAIT0,  // 0111 Wait for SW8 to be 0
+        WAIT1   // 1000 Wait for SW8 to be 1
     } opCode_t;
 
 

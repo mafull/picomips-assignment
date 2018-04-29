@@ -10,14 +10,16 @@ module controlPath
         parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
     )
     (
-        // Outputs
         // Demo
         output wire [(P_SIZE-1):0] displayPC,
+        input wire [9:0] switchesIn,
 
+        // Outputs
         // Control
         output wire writeReg,
         output cpuConfig::aluFunc_t aluFunc,
         output wire aluImmediate,
+        output wire immSwitches,
         // Data
         output wire [(R_SIZE-1):0] opD, opS,
         output wire [(N-1):0] opT,
@@ -40,7 +42,7 @@ module controlPath
 
 
     assign displayPC = pcAddressOut;
-    
+
 
     // Program counter instance
     programCounter
@@ -82,12 +84,14 @@ module controlPath
         (
             .aluFunc(aluFunc),
             .aluImmediate(aluImmediate),
+            .immSwitches(immSwitches),
             .pcInc(pcInc),
             .pcBranchAbs(pcBranchAbs),
             .pcBranchRel(pcBranchRel),
             .writeReg(writeReg),
             
-            .opCode(opCode)
+            .opCode(opCode),
+            .demoSwitch(switchesIn[8])
         );
 
 
