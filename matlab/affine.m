@@ -10,12 +10,12 @@ function [x2,y2] = affine(x1,y1)
         ];
     
     % Multiplications + rounding
-    res1 = fix(A(1,1) * x1);
-    res2 = fix(A(1,2) * y1);
-    res3 = fix(A(2,1) * x1);
-    res4 = fix(A(2,2) * y1);
+    res1 = floor(A(1,1) * x1);
+    res2 = floor(A(1,2) * y1);
+    res3 = floor(A(2,1) * x1);
+    res4 = floor(A(2,2) * y1);
     
-    % Additions    
+    % Additions
     x2 = res1 + res2 + B(1);
     y2 = res3 + res4 + B(2);
 
