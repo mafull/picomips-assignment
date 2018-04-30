@@ -1,5 +1,3 @@
-
-
 module decoder
     #(
 		parameter A_SIZE = 3,	// ALU function width
@@ -13,11 +11,13 @@ module decoder
 		output logic pcInc,
 		output logic writeReg,
 
+		// Inputs
 		input cpuConfig::opCode_t opCode,
 		input wire demoSwitch
 	);
 	
 
+	// Import OpCodes and ALU function codes
 	import cpuConfig::*;
 
 
@@ -32,38 +32,46 @@ module decoder
 		// Decode opCode
 		case (opCode)
 			LDI: begin
+				// Load immediate value into destination register
 				aluFunc = ALU_B;
 				aluImmediate = 1'b1;
 			end
 			LDS: begin
+				// Wait for SW8 to be 1
 				pcInc = demoSwitch;
 
+				// Load SW0-7 value into destination register
 				aluFunc = ALU_B;
 				aluImmediate = 1'b1;
 				immSwitches = 1'b1;
 			end
 			ADD: begin
+				// Add source register to destination register
 				aluFunc = ALU_ADD;
 			end
 			ADDI: begin
+				// Add immediate value to destination register
 				aluFunc = ALU_ADD;
 				aluImmediate = 1'b1;
 			end
 			MUL: begin
+				// Multiply destination register by source register
 				aluFunc = ALU_MUL;
 			end
 			MULI: begin
+				// Multiply destination register by immediate value
 				aluFunc = ALU_MUL;
 				aluImmediate = 1'b1;
 			end
 			WAIT0: begin
+				// Wait for SW8 to be 0
 				pcInc = ~demoSwitch;
 			end
 			WAIT1: begin
+				// Wait for SW8 to be 1
 				pcInc = demoSwitch;
 			end
 		endcase
 	end
-
 
 endmodule
