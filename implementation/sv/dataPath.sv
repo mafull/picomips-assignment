@@ -16,7 +16,7 @@ module dataPath
         input wire aluImmediate,
         input wire immSwitches,
         // Data
-        input wire [(R_SIZE-1):0] opD, opS,
+        input wire [(R_SIZE-1):0] opD,// opS,
         input wire [(N-1):0] opT,
 
         // Clock/reset
@@ -46,7 +46,7 @@ module dataPath
 
             .dataIn(aluResult),
             .dAddressIn(opD),
-            .sAddressIn(opS),
+            .sAddressIn(opT[(R_SIZE-1):0]),
             .writeEnable(writeReg),
 
             .clk(clk)

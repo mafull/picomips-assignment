@@ -1,14 +1,14 @@
 module picoMIPS(
 	// Board outputs
-	output wire [9:0] LED,
-	output wire [6:0] SEG0, SEG1, SEG2, SEG3, SEG4, SEG5,
+	output wire [7:0] LED,
+	output wire [6:0] SEG4,
 
 	// Board inputs
-	input wire [3:0] BUTTON,
-	input wire [9:0] SWITCH,
+	//input wire [3:0] BUTTON,
+	input wire [9:0] SW,
 
 	// Clock
-	input wire CLOCK
+	input wire clk//, nRst
 );
 
 	wire [(cpuConfig::P_SIZE-1):0] displayPC;
@@ -26,24 +26,17 @@ module picoMIPS(
 			.displayResult(LED[(cpuConfig::N-1):0]),
 			.displayPC(displayPC),
 
-			.switchesIn(SWITCH),
+			.switchesIn(SW),
 			
-			.clk(BUTTON[1]),
-			.nRst(BUTTON[0])
+			.clk(clk)//,
+			//.nRst(nRst)
 		);
 
 
-	sevenSegment seg4(
+	/*sevenSegment seg4(
 		SEG4,
 		displayPC[3:0],
 		1'b1
-	);
-
-
-	sevenSegment seg5(
-		SEG5,
-		displayPC[(cpuConfig::P_SIZE-1):4],
-		1'b1
-	);
+	);*/
 
 endmodule

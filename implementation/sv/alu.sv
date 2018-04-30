@@ -5,7 +5,6 @@ module alu
     )
     (
         output logic signed [(N-1):0] result,
-        //output logic [3:0] flags,       // N,Z,C,V alu flags
         
         input wire signed [(N-1):0] a, b,
         input cpuConfig::aluFunc_t func

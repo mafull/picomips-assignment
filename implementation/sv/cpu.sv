@@ -6,8 +6,8 @@ module cpu
         parameter P_SIZE = 5,   // Program memory address width
         parameter R_SIZE = 3,   // GPR address width
 
-        // Instruction = opCode(O) + dest(R) + source(R) + imm/addr(N)
-        parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
+        // Instruction = opCode(O) + dest(R) + imm/target(N)
+        parameter I_SIZE = O_SIZE + R_SIZE + N
 	)
 	(
 		output wire [(N-1):0] displayResult,
@@ -15,7 +15,7 @@ module cpu
 		
 		input wire [9:0] switchesIn,
 
-		input wire clk, nRst
+		input wire clk//, nRst
 	);
 
 
@@ -24,7 +24,7 @@ module cpu
 	wire aluImmediate;
 	wire immSwitches;
 
-	wire [(R_SIZE-1):0] opD, opS;
+	wire [(R_SIZE-1):0] opD;//, opS;
 	wire [(N-1):0] opT;
 
 
@@ -46,11 +46,11 @@ module cpu
 			.immSwitches(immSwitches),
 
 			.opD(opD),
-			.opS(opS),
+			//.opS(opS),
 			.opT(opT),
 
-			.clk(clk),
-			.nRst(nRst)
+			.clk(clk)//,
+			//.nRst(nRst)
 		);
 
 
@@ -70,7 +70,7 @@ module cpu
 			.immSwitches(immSwitches),
 
 			.opD(opD),
-			.opS(opS),
+			//.opS(opS),
 			.opT(opT),
 
 			.clk(clk)

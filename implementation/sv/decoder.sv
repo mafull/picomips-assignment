@@ -15,7 +15,6 @@ module decoder
 
 		input cpuConfig::opCode_t opCode,
 		input wire demoSwitch
-		//input wire [3:0] aluFlags
 	);
 	
 
@@ -31,13 +30,14 @@ module decoder
 		writeReg = 1'b1;
 
 		// Decode opCode
-		unique case (opCode)
-			NOP: ;
+		case (opCode)
 			LDI: begin
 				aluFunc = ALU_B;
 				aluImmediate = 1'b1;
 			end
 			LDS: begin
+				pcInc = demoSwitch;
+
 				aluFunc = ALU_B;
 				aluImmediate = 1'b1;
 				immSwitches = 1'b1;
@@ -51,6 +51,10 @@ module decoder
 			end
 			MUL: begin
 				aluFunc = ALU_MUL;
+			end
+			MULI: begin
+				aluFunc = ALU_MUL;
+				aluImmediate = 1'b1;
 			end
 			WAIT0: begin
 				pcInc = ~demoSwitch;

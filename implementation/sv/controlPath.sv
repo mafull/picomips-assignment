@@ -6,7 +6,7 @@ module controlPath
         parameter P_SIZE = 5,   // Program memory address width
         parameter R_SIZE = 3,   // GPR address width
 
-        // Instruction = opCode(O) + dest(R) + source(R) + imm/addr(N)
+        // Instruction = opCode(O) + dest(R) + source(R) + imm/target(N)
         parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
     )
     (
@@ -21,7 +21,7 @@ module controlPath
         output wire aluImmediate,
         output wire immSwitches,
         // Data
-        output wire [(R_SIZE-1):0] opD, opS,
+        output wire [(R_SIZE-1):0] opD,
         output wire [(N-1):0] opT,
 
         // Clock/reset
@@ -32,7 +32,7 @@ module controlPath
     // Instruction wires
     wire [(I_SIZE-1):0] instruction;
     cpuConfig::opCode_t opCode;
-    assign {opCode, opD, opS, opT} = instruction;
+    assign {opCode, opD, opT} = instruction;
 
 
     // Program counter IO
@@ -53,8 +53,8 @@ module controlPath
 
             .inc(pcInc),
 
-            .clk(clk),
-            .nRst(nRst)
+            .clk(clk)//,
+            //.nRst(nRst)
         );
 
 
