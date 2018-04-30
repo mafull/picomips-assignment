@@ -1,15 +1,18 @@
 module registers
     #(
-        parameter N = 8,
-        parameter R_SIZE = 3
+        parameter N = 8,        // Data bus width
+        parameter R_SIZE = 3    // GPR address width
     )
     (
+        // Outputs
         output logic [(N-1):0] dOut, sOut,
 
+        // Inputs
         input wire [(N-1):0] dataIn,
         input wire [(R_SIZE-1):0] dAddressIn, sAddressIn,
         input wire writeEnable,
 
+        // Clock
         input wire clk
     );
 
@@ -28,7 +31,6 @@ module registers
 
     // Asynchronous read
     assign dOut = regs[dAddressIn];
-    assign sOut = regs[sAddressIn];
-    
+    assign sOut = regs[sAddressIn];    
 
 endmodule
