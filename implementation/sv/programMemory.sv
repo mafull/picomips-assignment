@@ -4,9 +4,11 @@ module programMemory
         parameter P_SIZE = 5    // Address width
     )
     (
-        output logic [(I_SIZE-1):0] instructionOut, // Selected instruction
+        // Outputs
+        output logic [(I_SIZE-1):0] instructionOut,
 
-        input wire [(P_SIZE-1):0] addressIn         // Address of required instruction
+        // Inputs
+        input wire [(P_SIZE-1):0] addressIn
     );
 
 
@@ -15,12 +17,10 @@ module programMemory
 
 
     // Load memory contents from .hex file
-    initial
-    	$readmemh("hex/prog.hex", memory);
+    initial $readmemh("hex/prog.hex", memory);
 
 
-    // Read program memory
+    // Asynchronously read program memory
     assign instructionOut = memory[addressIn];
-
 
 endmodule

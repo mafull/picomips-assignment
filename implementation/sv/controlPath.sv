@@ -6,15 +6,13 @@ module controlPath
         parameter P_SIZE = 5,   // Program memory address width
         parameter R_SIZE = 3,   // GPR address width
 
-        // Instruction = opCode(O) + dest(R) + source(R) + imm/target(N)
-        parameter I_SIZE = O_SIZE + (2*R_SIZE) + N
+        // Instruction = opCode(O) + destAddr(R) + sourceAddr/imm(N)
+        parameter I_SIZE = O_SIZE + R_SIZE + N
     )
     (
+        // Outputs
         // Demo
         output wire [(P_SIZE-1):0] displayPC,
-        input wire [9:0] switchesIn,
-
-        // Outputs
         // Control
         output wire writeReg,
         output cpuConfig::aluFunc_t aluFunc,
@@ -22,24 +20,27 @@ module controlPath
         output wire immSwitches,
         // Data
         output wire [(R_SIZE-1):0] opD,
-        output wire [(N-1):0] opT,
+        output wire [(N-1):0] opS,
 
-        // Clock/reset
-        input wire clk, nRst
+        // Inputs
+        // Demo
+        input wire [9:0] switchesIn,
+
+        // Clock
+        input wire clk
     );
 
     
     // Instruction wires
     wire [(I_SIZE-1):0] instruction;
     cpuConfig::opCode_t opCode;
-    assign {opCode, opD, opT} = instruction;
-
+    assign {opCode, opD, opS} = instruction;
 
     // Program counter IO
     wire pcInc;
     wire [(P_SIZE-1):0] pcAddressOut;
 
-
+    // Demo
     assign displayPC = pcAddressOut;
 
 
@@ -49,12 +50,14 @@ module controlPath
             .P_SIZE(P_SIZE)
         ) pc
         (
+            // Outputs
             .addressOut(pcAddressOut),
 
+            // Inputs
             .inc(pcInc),
 
-            .clk(clk)//,
-            //.nRst(nRst)
+            // Clock
+            .clk(clk)
         );
 
 
@@ -65,8 +68,10 @@ module controlPath
             .P_SIZE(P_SIZE)
         ) pm
         (
+            // Outputs
             .instructionOut(instruction),
 
+            // Inputs
             .addressIn(pcAddressOut)
         );
 
@@ -78,15 +83,16 @@ module controlPath
             .O_SIZE(O_SIZE)
         ) de
         (
+            // Outputs
             .aluFunc(aluFunc),
             .aluImmediate(aluImmediate),
             .immSwitches(immSwitches),
             .pcInc(pcInc),
             .writeReg(writeReg),
             
+            // Inputs
             .opCode(opCode),
             .demoSwitch(switchesIn[8])
         );
-
 
 endmodule
