@@ -3,7 +3,7 @@ db
 incremental_db
 
 # Only keep .sof
-output_files/*
+output_files/*.*
 !output_files/*.sof
 
 # Only keep test source files
