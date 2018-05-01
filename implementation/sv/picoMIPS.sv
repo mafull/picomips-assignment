@@ -51,7 +51,6 @@ module picoMIPS(
 
 
 	// Control lines
-	wire writeReg;
 	cpuConfig::aluFunc_t aluFunc;
 	wire aluImmediate;
 	wire immSwitches;
@@ -72,13 +71,14 @@ module picoMIPS(
 		) cp
 		(
 			// Demo
-			.displayPC(displayPC),
-			.displayOpCode(displayOpCode),
+			`ifdef DEMO_MODE
+				.displayPC(displayPC),
+				.displayOpCode(displayOpCode),
+			`endif
 			.switchesIn(SW),
 
 			// Outputs
 			// Control
-			.writeReg(writeReg),
 			.aluFunc(aluFunc),
 			.aluImmediate(aluImmediate),
 			.immSwitches(immSwitches),
@@ -105,7 +105,6 @@ module picoMIPS(
 
 			// Inputs
 			// Control
-			.writeReg(writeReg),
 			.aluFunc(aluFunc),
 			.aluImmediate(aluImmediate),
 			.immSwitches(immSwitches),

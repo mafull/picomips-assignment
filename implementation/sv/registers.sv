@@ -10,7 +10,6 @@ module registers
         // Inputs
         input wire [(N-1):0] dataIn,
         input wire [(R_SIZE-1):0] dAddressIn, sAddressIn,
-        input wire writeEnable,
 
         // Clock
         input wire clk
@@ -25,7 +24,7 @@ module registers
     always_ff @ (
         posedge clk
     ) begin
-        regs[dAddressIn] <= writeEnable ? dataIn : regs[dAddressIn];
+        regs[dAddressIn] <= dataIn;
     end
 
 

@@ -13,7 +13,6 @@ module dataPath
         // Demo
         input wire [9:0] switchesIn,
         // Control
-        input wire writeReg,
         input cpuConfig::aluFunc_t aluFunc,
         input wire aluImmediate,
         input wire immSwitches,
@@ -53,7 +52,6 @@ module dataPath
             .dataIn(aluResult),
             .dAddressIn(opD),
             .sAddressIn(opS[(R_SIZE-1):0]),
-            .writeEnable(writeReg),
 
             // Clock
             .clk(clk)

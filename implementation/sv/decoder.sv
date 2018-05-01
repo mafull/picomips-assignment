@@ -9,7 +9,6 @@ module decoder
 		output logic aluImmediate,
 		output logic immSwitches,
 		output logic pcInc,
-		output logic writeReg,
 
 		// Inputs
 		input cpuConfig::opCode_t opCode,
@@ -27,7 +26,6 @@ module decoder
 		aluImmediate = 1'b0;
 		immSwitches = 1'b0;
 		pcInc = 1'b1;
-		writeReg = 1'b1;
 
 		// Decode opCode
 		case (opCode)

@@ -15,7 +15,6 @@ module controlPath
         output wire [(P_SIZE-1):0] displayPC,
         output wire [(O_SIZE-1):0] displayOpCode,
         // Control
-        output wire writeReg,
         output cpuConfig::aluFunc_t aluFunc,
         output wire aluImmediate,
         output wire immSwitches,
@@ -90,7 +89,6 @@ module controlPath
             .aluImmediate(aluImmediate),
             .immSwitches(immSwitches),
             .pcInc(pcInc),
-            .writeReg(writeReg),
             
             // Inputs
             .opCode(opCode),
