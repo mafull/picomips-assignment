@@ -13,6 +13,7 @@ module controlPath
         // Outputs
         // Demo
         output wire [(P_SIZE-1):0] displayPC,
+        output wire [(O_SIZE-1):0] displayOpCode,
         // Control
         output wire writeReg,
         output cpuConfig::aluFunc_t aluFunc,
@@ -42,6 +43,7 @@ module controlPath
 
     // Demo
     assign displayPC = pcAddressOut;
+    assign displayOpCode = opCode;
 
 
     // Program counter instance

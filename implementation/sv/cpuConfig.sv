@@ -1,4 +1,8 @@
 package cpuConfig;
+    
+    // Uncomment to enable 7-seg displays and clock LED
+    `define DEMO_MODE
+
 
     // CPU parameters
     parameter N      = 8;   // Data bus width 
@@ -7,19 +11,6 @@ package cpuConfig;
     parameter P_SIZE = 4;   // Program memory address width
     parameter R_SIZE = 2;   // GPR address width
 
-
-    // // OpCodes
-    // typedef enum logic [(O_SIZE-1):0] {
-    //     NOP,    // 0000 No operation
-    //     LDI,    // 0001 Load immediate
-    //     LDS,    // 0010 Load from switches
-    //     ADD,    // 0011 Add
-    //     ADDI,   // 0100 Add immediate
-    //     MUL,    // 0101 Multiply
-    //     MULI,   // 0110 Multiply immediate
-    //     WAIT0,  // 0111 Wait for SW8 to be 0
-    //     WAIT1   // 1000 Wait for SW8 to be 1
-    // } opCode_t;
 
     // OpCodes
     typedef enum logic [(O_SIZE-1):0] {
