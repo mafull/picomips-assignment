@@ -4,10 +4,6 @@ module test_alu;
 
     import cpuConfig::*;
 
-    // Parameters
-    parameter N = 8;
-    parameter A_SIZE = 2;
-
 
     // Outputs
     wire [(N-1):0] result;
@@ -50,12 +46,12 @@ module test_alu;
         func = ALU_MUL;   // 0.75*6 = 4.5 (truncated to 4)
         #5 if (result != 8'b00000100) $error("Incorrect result");
 
-        // Test fixed-point multiplication (positive)
+        // Test fixed-point multiplication (negative)
         #5;
         a = 8'b11000000;    // -0.5
         b = 5;
-        func = ALU_MUL;   // -0.5*5 = -2.5 (truncated to -2)
-        #5 if (result != 8'b00000100) $error("Incorrect result");
+        func = ALU_MUL;   // -0.5*5 = -2.5 (truncated to -3)
+        #5 if (result != 8'b11111101) $error("Incorrect result");
     end
 
 endmodule
